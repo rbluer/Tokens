@@ -18,8 +18,16 @@ public abstract class RedeemModule {
 
 	public abstract String getCommand();
 
+	/**
+	 * Used to provide aliases to the main command
+	 * @return Aliases of the main command
+	 */
 	public abstract String[] getCommandAliases();
 
+	/**
+	 * Used to inform the player how to use the command
+	 * @return How to use the command
+	 */
 	public abstract String getCommandUsage();
 
 	/**
