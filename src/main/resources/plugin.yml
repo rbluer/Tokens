@@ -2,7 +2,7 @@ name: Tokens
 version: 3.9.6
 main: net.thirdshift.tokens.Tokens
 website: https://www.spigotmc.org/resources/tokens-multi-plugin-support-mysql-support.71941/
-softdepend: [Factions, mcMMO, Vault, CombatLogX, PlaceholderAPI, ShopGUIPlus]
+softdepend: [Factions, mcMMO, Vault, CombatLogX, PlaceholderAPI, ShopGUIPlus, CratesPlus]
 api-version: 1.14
 authors: [TheCoolestPaul]
 description: Adding another currency into Minecraft
@@ -26,17 +26,17 @@ permissions:
     default: true
     description: Required to use /tokens give (target player) (token amount)
   tokens.others:
-    default: false
+    default: op
     description: Required to use /tokens (player name)
   tokens.reload:
-    default: false
+    default: op
     description: Required to use /tokens reload
   tokens.set:
-    default: false
+    default: op
     description: Required to use /tokens set
   tokens.add:
-    default: false
+    default: op
     description: Required to use /tokens add
   tokens.remove:
-    default: false
+    default: op
     description: Required to use /tokens remove

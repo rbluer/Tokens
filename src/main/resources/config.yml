@@ -56,3 +56,16 @@ VaultEco:
   Buy-Price: 1500
   Sell-Tokens: true
   Sell-Price: 1000
+
+#
+# Settings for CratesPlus
+#
+# Enabled: (true/false) Is support enabled?
+# Crates:
+#  ExampleCrateName (CASE SENSITIVE): (any number) How much does CRATENAME cost in Tokens?
+#
+###
+CratesPlus:
+  Enabled: false
+  Crates:
+    ExampleCrateName: 5

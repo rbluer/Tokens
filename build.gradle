@@ -43,6 +43,7 @@ dependencies {
     compileOnly "com.SirBlobman:CombatLogX" // Provided in /libs/
     compileOnly "com.massivecraft:Factions:1.6.9.5-U0.5.17" // Provided in /libs/
     compileOnly "com.github.brcdev-minecraft:shopgui-api:1.5.0"
+    compileOnly "com.github.ConnorLinfoot:CratesPlus:master-SNAPSHOT"
 }
 
 processResources {
