@@ -1,6 +1,7 @@
 package net.thirdshift.tokens;
 
 import net.milkbowl.vault.economy.Economy;
+import net.thirdshift.tokens.bosshoppro.BSTokensPlayerPoints;
 import net.thirdshift.tokens.commands.redeem.RedeemCommandExecutor;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.KeyRedeemModule;
 import net.thirdshift.tokens.commands.tokens.CommandTokens;
@@ -54,6 +55,7 @@ public final class Tokens extends JavaPlugin {
 	private TokensHandler tokensHandler;
 	private TokenShopGUIPlus tokenShopGUIPlus;
 	private RedeemCommandExecutor redeemCommandExecutor;
+	private BSTokensPlayerPoints tokensBossShop;
 
 	@Override
 	public void onLoad() {
@@ -91,6 +93,11 @@ public final class Tokens extends JavaPlugin {
 		if(Bukkit.getPluginManager().getPlugin("ShopGUIPlus")!=null){
 			tokenShopGUIPlus = new TokenShopGUIPlus(this);
 			this.getLogger().info("Successfully registered Tokens as ShopGUI+ economy");
+		}
+		if(Bukkit.getPluginManager().getPlugin("BossShopPro")!=null){
+			tokensBossShop = new BSTokensPlayerPoints(this);
+			tokensBossShop.register();
+			this.getLogger().info("Successfully registered Tokens as BossShopPro point provider");
 		}
 		this.reloadConfig();
 

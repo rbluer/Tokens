@@ -44,9 +44,6 @@ repositories {
     // Added for Vault dependencies
     maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
     maven { url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
-    flatDir {
-        dirs 'libs'
-    }
 }
 
 dependencies {
@@ -55,10 +52,9 @@ dependencies {
     compileOnly "me.clip:placeholderapi:2.10.8"
     compileOnly "com.github.mcMMO-Dev:mcMMO:master-SNAPSHOT"
     compileOnly "com.SirBlobman.combatlogx:CombatLogX-API:10.0.0.0-SNAPSHOT"
-
     compileOnly "com.massivecraft:Factions:1.6.9.5-U0.5.13"
-
     compileOnly "com.github.brcdev-minecraft:shopgui-api:1.5.0"
+    compileOnly "com.github.Blackixx:BossShopPro:master-SNAPSHOT"
 }
 
 processResources {
