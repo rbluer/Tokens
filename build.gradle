@@ -3,7 +3,7 @@ import org.apache.tools.ant.filters.ReplaceTokens
 apply plugin: 'java'
 
 group = 'net.thirdshift'
-version = '3.9.7'
+version = '3.9.7-BETA-BSP'
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
@@ -27,7 +27,7 @@ repositories {
         url = "https://repo.codemc.io/repository/maven-public/"
     }
     maven {
-        name = "maven NMS"
+        name = "codeMC NMS"
         url = "https://repo.codemc.io/repository/nms/"
     }
     maven {
