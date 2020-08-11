@@ -1,6 +1,7 @@
 package net.thirdshift.tokens.util;
 
 import net.thirdshift.tokens.Tokens;
+import net.thirdshift.tokens.combatlogx.TokensCombatManager;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.CratesPlusRedeemModule;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.FactionsRedeemModule;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.McMMORedeemModule;
@@ -16,18 +17,23 @@ public class TokensConfigHandler {
 	private boolean sqlliteEnabled = true;
 	private boolean isRunningMySQL = false;
 
+	private boolean hasFactions = false;
 	private boolean factionsEnabled = false;
 	private boolean isRunningFactions = false;
 	private int tokenToFactionPower;
 
+	private boolean hasMCMMO = false;
 	private boolean mcmmoEnabled = false;
 	private boolean isRunningMCMMO = false;
 	private int tokensToMCMMOLevels;
 
+	private boolean hasCombatLogX = false;
 	private boolean combatLogXEnabled = false;
 	private boolean combatLogXBlockTokens = false;
 	private boolean isRunningCombatLogX = false;
+	private TokensCombatManager tokensCombatManager;
 
+	private boolean hasVault = false;
 	private boolean vaultEnabled = false;
 	private boolean vaultBuy = false;
 	private boolean vaultSell = false;
@@ -92,8 +98,9 @@ public class TokensConfigHandler {
 
 		// Factions Check
 		if (factionsEnabled) {
-			Plugin factionsPlug = Bukkit.getServer().getPluginManager().getPlugin("Factions");
+			Plugin factionsPlug = Bukkit.getPluginManager().getPlugin("Factions");
 			if (factionsPlug != null && factionsPlug.isEnabled()) {
+				hasFactions = true;
 				isRunningFactions = true;
 				plugin.getRedeemCommandExecutor().registerRedeemModule(new FactionsRedeemModule());
 			} else if (factionsPlug == null || !factionsPlug.isEnabled()) {
@@ -106,8 +113,9 @@ public class TokensConfigHandler {
 
 		// Vault Check
 		if (vaultEnabled) {
-			Plugin vaultPlug = Bukkit.getServer().getPluginManager().getPlugin("Vault");
+			Plugin vaultPlug = Bukkit.getPluginManager().getPlugin("Vault");
 			if (vaultPlug != null && vaultPlug.isEnabled()) {
+				hasVault = true;
 				plugin.getRedeemCommandExecutor().registerRedeemModule(new VaultRedeemModule());
 				plugin.vaultIntegration();
 			} else if (vaultPlug == null || !vaultPlug.isEnabled()) {
@@ -120,9 +128,12 @@ public class TokensConfigHandler {
 
 		// CombatLogX Check
 		if (combatLogXEnabled) {
-			Plugin combPlug = Bukkit.getServer().getPluginManager().getPlugin("CombatLogX");
+			Plugin combPlug = Bukkit.getPluginManager().getPlugin("CombatLogX");
 			if (combPlug != null && combPlug.isEnabled()) {
+				hasCombatLogX = true;
 				isRunningCombatLogX = true;
+				if (tokensCombatManager==null)
+					tokensCombatManager = new TokensCombatManager(this);
 			} else if (combPlug == null || !combPlug.isEnabled()) {
 				isRunningCombatLogX = false;
 				plugin.getLogger().warning("CombatLogX addon is enabled but CombatLogX is not running on the server!");
@@ -133,8 +144,9 @@ public class TokensConfigHandler {
 
 		// mcMMO Check
 		if (mcmmoEnabled) {
-			Plugin mcmmoPlug = Bukkit.getServer().getPluginManager().getPlugin("mcMMO");
+			Plugin mcmmoPlug = Bukkit.getPluginManager().getPlugin("mcMMO");
 			if (mcmmoPlug != null && mcmmoPlug.isEnabled()) {
+				hasMCMMO = true;
 				isRunningMCMMO = true;
 				plugin.getRedeemCommandExecutor().registerRedeemModule(new McMMORedeemModule());
 			} else if (mcmmoPlug == null || !mcmmoPlug.isEnabled()) {
@@ -204,5 +216,9 @@ public class TokensConfigHandler {
 
 	public double getVaultSellPrice() {
 		return vaultSellPrice;
+	}
+
+	public TokensCombatManager getTokensCombatManager() {
+		return tokensCombatManager;
 	}
 }
