@@ -1,18 +1,18 @@
 import org.apache.tools.ant.filters.ReplaceTokens
 
-apply plugin: 'java'
+apply plugin: "java"
 
-group = 'net.thirdshift'
-version = '3.9.7'
+group = "net.thirdshift"
+version = "3.9.7"
 
-sourceCompatibility = '1.8'
-targetCompatibility = '1.8'
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
 
 repositories {
     mavenCentral()
     maven {
-        name = 'placeholderapi-repo'
-        url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'
+        name = "placeholderapi-repo"
+        url = "https://repo.extendedclip.com/content/repositories/placeholderapi/"
     }
     maven {
         name = "Vault-API"
@@ -42,11 +42,11 @@ repositories {
     }
 
     // Added for Vault dependencies
-    maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
-    maven { url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
-    flatDir {
-        dirs 'libs'
-    }
+    maven { url = "https://oss.sonatype.org/content/repositories/snapshots" }
+    maven { url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
+
+    // Votifier
+    maven { url = "https://dl.bintray.com/ichbinjoe/public/" }
 }
 
 dependencies {
@@ -55,10 +55,9 @@ dependencies {
     compileOnly "me.clip:placeholderapi:2.10.8"
     compileOnly "com.github.mcMMO-Dev:mcMMO:master-SNAPSHOT"
     compileOnly "com.SirBlobman.combatlogx:CombatLogX-API:10.0.0.0-SNAPSHOT"
-
     compileOnly "com.massivecraft:Factions:1.6.9.5-U0.5.13"
-
     compileOnly "com.github.brcdev-minecraft:shopgui-api:1.5.0"
+    compileOnly "com.vexsoftware:nuvotifier-universal:2.6.0"
 }
 
 processResources {

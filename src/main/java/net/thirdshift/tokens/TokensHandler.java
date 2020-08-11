@@ -3,6 +3,8 @@ package net.thirdshift.tokens;
 import net.thirdshift.tokens.util.TokensConfigHandler;
 import org.bukkit.entity.Player;
 
+import java.util.UUID;
+
 //import java.util.HashMap;
 //import java.util.Map;
 //import java.util.UUID;
@@ -34,7 +36,20 @@ public class TokensHandler {
         if(configHandler.isRunningMySQL()){
             plugin.getMySQL().addTokens(player, tokensIn);
         } else {
-            plugin.getSqllite().setTokens(player, (plugin.getSqllite().getTokens(player) + tokensIn) );
+            plugin.getSqllite().addTokens(player, tokensIn);
+        }
+    }
+
+    /**
+     * Adds Tokens to a current player's balance
+     * @param uuid UUID of the player
+     * @param tokensIn Amount of tokens
+     */
+    public void addTokens(UUID uuid, int tokensIn){
+        if(configHandler.isRunningMySQL()){
+            plugin.getMySQL().addTokens(uuid, tokensIn);
+        }else{
+            plugin.getSqllite().addTokens(uuid, tokensIn);
         }
     }
 

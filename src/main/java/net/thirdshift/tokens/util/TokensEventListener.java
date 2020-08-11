@@ -1,8 +1,10 @@
 package net.thirdshift.tokens.util;
 
+import com.vexsoftware.votifier.model.VotifierEvent;
 import net.thirdshift.tokens.Tokens;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -32,6 +34,12 @@ public class TokensEventListener implements Listener {
 
 	public void setUpdateURL(String url) {
 		this.updateURL = url;
+	}
+
+	@EventHandler (priority = EventPriority.NORMAL)
+	public void onVotifierEvent(VotifierEvent event){
+		if (plugin.getTokensConfigHandler().isRunningVotifier())
+			plugin.getTokensConfigHandler().getVotifierListener().votifierEvent(event);
 	}
 
 	@EventHandler (priority = EventPriority.LOWEST)

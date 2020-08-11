@@ -5,6 +5,7 @@ import net.thirdshift.tokens.combatlogx.TokensCombatManager;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.FactionsRedeemModule;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.McMMORedeemModule;
 import net.thirdshift.tokens.commands.redeem.redeemcommands.VaultRedeemModule;
+import net.thirdshift.tokens.votifier.VotifierListener;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
@@ -37,6 +38,11 @@ public class TokensConfigHandler {
 	private double vaultBuyPrice;
 	private double vaultSellPrice;
 
+	private boolean hasVotifier = false;
+	private boolean votifierEnabled = false;
+	private boolean isRunningVotifier = false;
+	private VotifierListener votifierListener;
+
 	private final Tokens plugin;
 
 	public TokensConfigHandler(final Tokens plugin){
@@ -63,6 +69,9 @@ public class TokensConfigHandler {
 		// mcmmo related config options
 		this.mcmmoEnabled = plugin.getConfig().getBoolean("mcMMO.Enabled");
 		this.tokensToMCMMOLevels = plugin.getConfig().getInt("mcMMO.Tokens-To-Levels");
+
+		// votifier related config options
+		votifierEnabled = plugin.getConfig().getBoolean("Votifier.Enabled");
 
 		// MySQL Check
 		if (mySQLEnabled) {
@@ -145,6 +154,19 @@ public class TokensConfigHandler {
 			isRunningMCMMO = false;
 		}
 
+		// Votifier Check
+		if (votifierEnabled){
+			Plugin votPlug = Bukkit.getPluginManager().getPlugin("Votifier");
+			if (votPlug != null && votPlug.isEnabled()){
+				isRunningVotifier = true;
+				if (votifierListener==null)
+					votifierListener = new VotifierListener();
+			}else if (votPlug == null || !votPlug.isEnabled()){
+				isRunningVotifier = false;
+				plugin.getLogger().warning("Votifier addon is enable but Votifier is not installed on the server!");
+			}
+		}
+
 		// Prevents people like https://www.spigotmc.org/members/jcv.510317/ saying the plugin is broken <3
 		if (!mcmmoEnabled && !factionsEnabled && !vaultEnabled) {
 			plugin.getLogger().warning("You don't have any supported plugins enabled.");
@@ -197,5 +219,13 @@ public class TokensConfigHandler {
 
 	public TokensCombatManager getTokensCombatManager() {
 		return tokensCombatManager;
+	}
+
+	public boolean isRunningVotifier() {
+		return isRunningVotifier;
+	}
+
+	public VotifierListener getVotifierListener() {
+		return votifierListener;
 	}
 }

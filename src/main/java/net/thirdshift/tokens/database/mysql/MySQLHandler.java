@@ -5,6 +5,7 @@ import net.thirdshift.tokens.database.sqllite.Errors;
 import org.bukkit.entity.Player;
 
 import java.sql.*;
+import java.util.UUID;
 import java.util.logging.Level;
 
 public class MySQLHandler {
@@ -79,6 +80,10 @@ public class MySQLHandler {
         this.setTokens(player, (this.getTokens(player)+tokensIn) );
     }
 
+    public void addTokens(UUID uuid, int tokensIn){
+        setTokens(uuid, (tokensIn+getTokens(uuid)));
+    }
+
     public void removeTokens(Player player, int tokensIn){
         this.setTokens(player, Math.max( (this.getTokens(player)-tokensIn),0 ));// Can't have less than 0 tokens
     }
@@ -112,6 +117,35 @@ public class MySQLHandler {
         return tokens;
     }
 
+    public int getTokens(UUID uuid){
+        int tokens = 0;
+        PreparedStatement ps = null;
+        try {
+            String query = "SELECT num FROM tokens WHERE uuid = ?";
+            ps = connection.prepareStatement(query);
+            ps.setString(1, uuid.toString());
+            ResultSet result = ps.executeQuery();
+            if (result == null){
+                setTokens(uuid, 0);
+            }else {
+                while (result.next()) {
+                    tokens = result.getInt("num");
+                }
+            }
+        } catch(SQLException e) {
+            plugin.getLogger().info("MYSQL ERROR");
+            e.printStackTrace();
+        } finally{
+            try {
+                if (ps != null)
+                    ps.close();
+            } catch (SQLException ex) {
+                plugin.getLogger().log(Level.SEVERE, Errors.sqlConnectionClose(), ex);
+            }
+        }
+        return tokens;
+    }
+
     public void setTokens(Player player, int tokens){
         PreparedStatement ps1 = null;
         PreparedStatement ps2 = null;
@@ -125,6 +159,36 @@ public class MySQLHandler {
                 String query2 = "INSERT INTO tokens (uuid, num) VALUES (?, ?);";
                 ps2 = connection.prepareStatement(query2);
                 ps2.setString(1, player.getUniqueId().toString());
+                ps2.setInt(2, tokens);
+                ps2.executeUpdate();
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                if (ps1 != null)
+                    ps1.close();
+                if (ps2 != null)
+                    ps2.close();
+            } catch (SQLException ex) {
+                plugin.getLogger().log(Level.SEVERE, Errors.sqlConnectionClose(), ex);
+            }
+        }
+    }
+
+    public void setTokens(UUID uuid, int tokens){
+        PreparedStatement ps1 = null;
+        PreparedStatement ps2 = null;
+        try {
+            String query = "UPDATE tokens SET num = ? WHERE uuid = ?;";
+            ps1 = connection.prepareStatement(query);
+            ps1.setInt(1, tokens);
+            ps1.setString(2, uuid.toString());
+            int changed = ps1.executeUpdate();
+            if (changed==0){
+                String query2 = "INSERT INTO tokens (uuid, num) VALUES (?, ?);";
+                ps2 = connection.prepareStatement(query2);
+                ps2.setString(1, uuid.toString());
                 ps2.setInt(2, tokens);
                 ps2.executeUpdate();
             }

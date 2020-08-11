@@ -32,7 +32,7 @@ CombatLogX:
 #
 #  Settings for Factions compatibility
 #
-#  Enabled: (true/false) Is the support enabled?
+#  Enabled: (true/false) Is support enabled?
 #  Tokens-To-Power: (any number) How much faction power is 1 token worth?
 #
 ###
@@ -54,5 +54,13 @@ VaultEco:
   Enabled: false
   Buy-Tokens: false
   Buy-Price: 1500
-  Sell-Tokens: true
+  Sell-Tokens: false
   Sell-Price: 1000
+
+#
+# Settings for Votifier
+#
+# Enabled: (true/false) Is support enabled?
+###
+Votifier:
+  Enabled: false
