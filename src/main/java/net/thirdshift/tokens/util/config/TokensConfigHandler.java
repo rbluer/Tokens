@@ -1,4 +1,4 @@
-package net.thirdshift.tokens.util;
+package net.thirdshift.tokens.util.config;
 
 import net.thirdshift.tokens.Tokens;
 import net.thirdshift.tokens.combatlogx.TokensCombatManager;
@@ -42,41 +42,44 @@ public class TokensConfigHandler {
 	private int updateTaskID = -1;
 
 	private final Tokens plugin;
+	private ConfigHandler configHandler;
 
 	public TokensConfigHandler(final Tokens plugin){
 		this.plugin = plugin;
+		configHandler = new ConfigHandler(plugin);
 	}
 
 	public void reloadConfig(){
-		this.mySQLEnabled = plugin.getConfig().getBoolean("MySQL.Enabled");
+		mySQLEnabled = configHandler.getBoolean("MySQL.Enabled", false);
 
 		// vault related config options
-		vaultEnabled = plugin.getConfig().getBoolean("VaultEco.Enabled");
-		vaultBuy = plugin.getConfig().getBoolean("VaultEco.Buy-Tokens");
-		vaultBuyPrice = plugin.getConfig().getDouble("VaultEco.Buy-Price");
-		vaultSell = plugin.getConfig().getBoolean("VaultEco.Sell-Tokens");
-		vaultSellPrice = plugin.getConfig().getDouble("VaultEco.Sell-Price");
+		vaultEnabled = configHandler.getBoolean("VaultEco.Enabled", false);
+		vaultBuy = configHandler.getBoolean("VaultEco.Buy-Tokens", false);
+		vaultBuyPrice = configHandler.getDouble("VaultEco.Buy-Price", 1000);
+		vaultSell = configHandler.getBoolean("VaultEco.Sell-Tokens", false);
+		vaultSellPrice = configHandler.getDouble("VaultEco.Sell-Price", 1000);
 
 		// factions related config options
-		factionsEnabled = plugin.getConfig().getBoolean("Factions.Enabled");
-		tokenToFactionPower = plugin.getConfig().getInt("Factions.Tokens-To-Power");
+		factionsEnabled = configHandler.getBoolean("Factions.Enabled", false);
+		tokenToFactionPower = configHandler.getInt("Factions.Tokens-To-Power", 2);
 
 		// combatlogx related config options
-		combatLogXEnabled = plugin.getConfig().getBoolean("CombatLogX.Enabled");
+		combatLogXEnabled = configHandler.getBoolean("CombatLogX.Enabled", false);
 
 		// mcmmo related config options
-		mcmmoEnabled = plugin.getConfig().getBoolean("mcMMO.Enabled");
-		tokensToMCMMOLevels = plugin.getConfig().getInt("mcMMO.Tokens-To-Levels");
+		mcmmoEnabled = configHandler.getBoolean("mcMMO.Enabled", false);
+		tokensToMCMMOLevels = configHandler.getInt("mcMMO.Tokens-To-Levels", 1);
 
 		// Auto-check update
-		updateCheckEnabled = plugin.getConfig().getBoolean("UpdateCheck.Enabled");
-		updateDelay = plugin.getConfig().getInt("UpdateCheck.Delay");
+		updateCheckEnabled = configHandler.getBoolean("UpdateCheck.Enabled", true);
+		updateDelay = configHandler.getInt("UpdateCheck.Delay", 40);
 
 		// MySQL Check
 		if (mySQLEnabled) {
 			if(plugin.getSqllite()!=null){
 				plugin.nullSQLLite();
 			}
+			configHandler.readMySQL();
 			sqlliteEnabled = false;
 			plugin.mySQLWork();
 			isRunningMySQL = true;

@@ -1,6 +1,6 @@
 package net.thirdshift.tokens;
 
-import net.thirdshift.tokens.util.TokensConfigHandler;
+import net.thirdshift.tokens.util.config.TokensConfigHandler;
 import org.bukkit.entity.Player;
 
 //import java.util.HashMap;

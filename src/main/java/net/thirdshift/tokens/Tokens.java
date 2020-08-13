@@ -12,7 +12,7 @@ import net.thirdshift.tokens.keys.KeyHandler;
 import net.thirdshift.tokens.messages.MessageHandler;
 import net.thirdshift.tokens.shopguiplus.TokenShopGUIPlus;
 import net.thirdshift.tokens.util.BStats;
-import net.thirdshift.tokens.util.TokensConfigHandler;
+import net.thirdshift.tokens.util.config.TokensConfigHandler;
 import net.thirdshift.tokens.util.TokensEventListener;
 import net.thirdshift.tokens.util.TokensPAPIExpansion;
 import net.thirdshift.tokens.util.updater.TokensSpigotUpdater;

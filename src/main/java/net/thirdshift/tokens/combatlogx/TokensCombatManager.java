@@ -2,7 +2,7 @@ package net.thirdshift.tokens.combatlogx;
 
 import com.SirBlobman.combatlogx.api.ICombatLogX;
 import com.SirBlobman.combatlogx.api.utility.ICombatManager;
-import net.thirdshift.tokens.util.TokensConfigHandler;
+import net.thirdshift.tokens.util.config.TokensConfigHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
