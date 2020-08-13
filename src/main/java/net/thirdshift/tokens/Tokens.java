@@ -93,19 +93,6 @@ public final class Tokens extends JavaPlugin {
 			this.getLogger().info("Successfully registered Tokens as ShopGUI+ economy");
 		}
 		this.reloadConfig();
-
-		// Auto-check updates related code
-		Runnable runnable = new Runnable() {
-			@Override
-			public void run() {
-				checkUpdates();
-			}
-		};
-		// Initial check for updates, then schedule one once every 20 minutes
-		final int task = getServer().getScheduler().scheduleSyncRepeatingTask(this, runnable, 0, 24000);
-		if (task==-1){
-			getLogger().warning("Couldn't schedule an auto-update check!");
-		}
 	}
 
 	public TokensConfigHandler getTokensConfigHandler() {
@@ -285,7 +272,7 @@ public final class Tokens extends JavaPlugin {
 		return vaultEcon;
 	}
 
-	private void checkUpdates(){
+	public void checkForUpdates(){
 		try {
 			if (updater.checkForUpdates()) {
 				this.getLogger().info("An update was found! New version: " + updater.getLatestVersion() + " download link: " + updater.getResourceURL());

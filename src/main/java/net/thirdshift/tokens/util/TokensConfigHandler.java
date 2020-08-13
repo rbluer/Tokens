@@ -37,6 +37,10 @@ public class TokensConfigHandler {
 	private double vaultBuyPrice;
 	private double vaultSellPrice;
 
+	private boolean updateCheckEnabled = true;
+	private int updateDelay = 40;
+	private int updateTaskID = -1;
+
 	private final Tokens plugin;
 
 	public TokensConfigHandler(final Tokens plugin){
@@ -61,8 +65,12 @@ public class TokensConfigHandler {
 		combatLogXEnabled = plugin.getConfig().getBoolean("CombatLogX.Enabled");
 
 		// mcmmo related config options
-		this.mcmmoEnabled = plugin.getConfig().getBoolean("mcMMO.Enabled");
-		this.tokensToMCMMOLevels = plugin.getConfig().getInt("mcMMO.Tokens-To-Levels");
+		mcmmoEnabled = plugin.getConfig().getBoolean("mcMMO.Enabled");
+		tokensToMCMMOLevels = plugin.getConfig().getInt("mcMMO.Tokens-To-Levels");
+
+		// Auto-check update
+		updateCheckEnabled = plugin.getConfig().getBoolean("UpdateCheck.Enabled");
+		updateDelay = plugin.getConfig().getInt("UpdateCheck.Delay");
 
 		// MySQL Check
 		if (mySQLEnabled) {
@@ -148,6 +156,23 @@ public class TokensConfigHandler {
 		// Prevents people like https://www.spigotmc.org/members/jcv.510317/ saying the plugin is broken <3
 		if (!mcmmoEnabled && !factionsEnabled && !vaultEnabled) {
 			plugin.getLogger().warning("You don't have any supported plugins enabled.");
+		}
+
+		if (updateCheckEnabled) {
+			// Auto-check updates related code
+			Runnable runnable = plugin::checkForUpdates;
+
+			// Initial check for updates, then schedule one once every 20 minutes
+			final int minutesDelay = updateDelay * 60 * 20;
+			updateTaskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, runnable, 0, minutesDelay);
+			if (updateTaskID == -1) {
+				plugin.getLogger().warning("Couldn't schedule an auto-update check!");
+			}
+		} else if(updateTaskID != -1){
+			if (Bukkit.getScheduler().isQueued(updateTaskID)){
+				Bukkit.getScheduler().cancelTask(updateTaskID);
+			}
+			updateTaskID = -1;
 		}
 	}
 
